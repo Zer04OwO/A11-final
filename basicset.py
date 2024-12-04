@@ -37,10 +37,30 @@ class Enemy:
         self.is_alive = True
         self.attack = 0
 
-    def draw(self, screen, font):
+    def draw(self, screen, font, color, location):
         screen.blit(self.image, self.rect)
-        label_hp = font.render(f"ATK: {self.attack}", True, (255, 0, 0))
-        screen.blit(label_hp, (self.rect.center[0] - 120, self.rect.center[0] - 150))
+        label_hp = font.render(f"ATK: {self.attack}", True, color)
+        screen.blit(label_hp, location)
 
     def move(self, position):
         self.rect.center = position
+
+class Sprite:
+    def __init__(self, image, size):
+        self.image = pygame.image.load(image)
+        self.image = pygame.transform.smoothscale(self.image, size)
+        self.image = self.image.convert_alpha()
+        self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
+        self.active = True
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+    def move(self, position):
+        self.rect.center = position
+
+class EyeOfEnd(Sprite):
+    def __init__(self, image, size, location):
+        super().__init__(image, size)
+        self.rect.center = location

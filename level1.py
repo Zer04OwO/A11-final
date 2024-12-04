@@ -80,17 +80,14 @@ def level1():
     is_play = False
     gate_on = False
     tool_gathered = False
-    collision_time = 0
 
     while player.is_alive:
         # Check events by looping over the list of events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                is_play = False
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and pixel_collision(player.mask, player.rect, start_mask, start_rect):
                 is_play = True
-                print(pygame.mouse.get_pos())
 
         # check if the player hit the grass
         if pixel_collision(player.mask, player.rect, barrier_mask, barrier_rect) and is_play:
@@ -107,7 +104,7 @@ def level1():
         # Draw the enemy
         if player.is_alive and zombie_1.is_alive:
             zombie_1.move((700, 700))
-            zombie_1.draw(screen, message_font)
+            zombie_1.draw(screen, message_font, (255, 0, 0), (580, 550))
 
         if pixel_collision(player.mask, player.rect, zombie_1.mask, zombie_1.rect) and is_play:
             if player.attack > zombie_1.attack:
@@ -134,10 +131,9 @@ def level1():
 
         #Draw tool icon if not touched by player
         if (pixel_collision(player.mask, player.rect, tool_mask, tool_rect) and is_play
-                and pygame.time.get_ticks() > collision_time + 1500):
+                and not tool_gathered):
             tool_gathered = True
             player.attack += 1
-            collision_time = pygame.time.get_ticks()
 
         if not tool_gathered:
             screen.blit(tool, tool_rect)
@@ -161,15 +157,7 @@ def level1():
         clock.tick(30)
 
     if player.is_alive:
-        display_win_or_loss.display_win_screen(screen)
-        pygame.time.wait(2000)
-        pygame.quit()
-        sys.exit()
+        # print('triggered')
+        return True
     else:
-        display_win_or_loss.display_loss_screen(screen)
-        pygame.time.wait(2000)
-        pygame.quit()
-        sys.exit()
-
-
-level1()
+        return False
