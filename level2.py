@@ -40,6 +40,7 @@ def level2():
 
     # load enemy file and get elements of it
     piglin = Enemy("piglin.png")
+    piglin.attack = 1
 
     # load destination (activated/not activated)
     the_end_portal_activated = pygame.image.load("End_Portal_on.png")
@@ -62,6 +63,17 @@ def level2():
     eye_of_ender_3 = EyeOfEnd("Eye_of_Ender.png", (100, 100), (1300, 900))
     eyes.append(eye_of_ender_3)
 
+    # load special enemy for this level
+    eoe = pygame.image.load("EOE.png")
+    eoe = pygame.transform.scale(eoe, (150, 150))
+    eoe_rect = eoe.get_rect()
+    eoe_rect.center = (1900, 700)
+
+    # fireball lists
+    fireballs = []
+    fireball = Fireball("Fireball.png", (100, 100))
+    fireballs.append(fireball)
+
     # Get a font to use to write on the screen.
     message_font = pygame.font.SysFont('bold', 100)
 
@@ -76,6 +88,7 @@ def level2():
     gate_on = False
     tool_gathered = False
     eyes_collected = 0
+    last_tick = 0
 
     while player.is_alive:
         # Check events by looping over the list of events
@@ -98,8 +111,8 @@ def level2():
         player.rect.center = pos
 
         # draw the map
-        screen.blit(map_barrier, barrier_rect)
         screen.blit(map_path, path_rect)
+        screen.blit(map_barrier, barrier_rect)
 
         # Draw the enemy
         if piglin.is_alive:
@@ -122,6 +135,20 @@ def level2():
         # draw the eye_of_ender_1/key
         for eye in eyes:
             eye.draw(screen)
+
+        # draw special enemy for this level
+        screen.blit(eoe, eoe_rect)
+
+        # create fireballs and move them
+        fireballs = [fireball for fireball in fireballs if fireball.rect.center[0] > 500]
+        if pygame.time.get_ticks() - last_tick > 2000:
+            fireball = Fireball("Fireball.png", (100, 100))
+            fireballs.append(fireball)
+            last_tick = pygame.time.get_ticks()
+        for fireball in fireballs:
+            fireball.update(screen)
+            if pixel_collision(player.mask, player.rect, fireball.mask, fireball.rect) and is_play:
+                player.is_alive = False
 
         # draw the destination
         if eyes_collected == 3:

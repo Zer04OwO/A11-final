@@ -64,3 +64,12 @@ class EyeOfEnd(Sprite):
     def __init__(self, image, size, location):
         super().__init__(image, size)
         self.rect.center = location
+
+class Fireball(Sprite):
+    def __init__(self, image, size):
+        super().__init__(image, size)
+        self.rect.center = (1900, 700)
+
+    def update(self, screen):
+        self.rect.center = (self.rect.center[0] - 20, self.rect.center[1])
+        screen.blit(self.image, self.rect)
