@@ -78,8 +78,6 @@ def level3():
 
     # some game flag to check during the game
     is_play = False
-    gate_on = False
-    tool_gathered = False
     tp_on = False
     tp_trigger = False
     collision_time = 0
@@ -137,13 +135,6 @@ def level3():
             tp_trigger = False
             player.tp()
 
-        # if pixel_collision(player.mask, player.rect, chorus_fruit_mask, chorus_fruit_rect) and is_play:
-        #     gate_on = True
-        #
-        # # draw the lighter/key
-        # if not gate_on:
-        #     screen.blit(chorus_fruit, chorus_fruit_rect)
-
         # draw the destination
         screen.blit(final_destination, final_destination_rect)
 
@@ -179,7 +170,6 @@ def level3():
         clock.tick(30)
 
     if player.is_alive:
-        # print('triggered')
         return True
     else:
         return False

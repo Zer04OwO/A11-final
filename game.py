@@ -17,10 +17,10 @@ def main():
     display a loss or win screen.
     :return: Only for exit the function
     """
-    passed_level1 = level1.level1()
-    if not passed_level1:
-        display_win_or_loss.display_loss_screen()
-        return
+    # passed_level1 = level1.level1()
+    # if not passed_level1:
+    #     display_win_or_loss.display_loss_screen()
+    #     return
 
     passed_level2 = level2.level2()
     if not passed_level2:
