@@ -20,12 +20,29 @@ class Player:
         self.mask = pygame.mask.from_surface(self.image)
         self.is_alive = True
         self.attack = 0
+        self.tp_mode = False
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
     def move(self, position):
         self.rect.center = position
+
+    def tp(self):
+        if self.tp_mode == False:
+            self.image = pygame.image.load("steve_tp_mode.png")
+            self.image = pygame.transform.smoothscale(self.image, (100, 100))
+            self.image = self.image.convert_alpha()
+            self.rect = self.image.get_rect()
+            self.mask = pygame.mask.from_surface(self.image)
+            self.tp_mode = True
+        else:
+            self.image = pygame.image.load("steve.png")
+            self.image = pygame.transform.smoothscale(self.image, (100, 100))
+            self.image = self.image.convert_alpha()
+            self.rect = self.image.get_rect()
+            self.mask = pygame.mask.from_surface(self.image)
+            self.tp_mode = False
 
 class Enemy:
     def __init__(self, image):
@@ -37,10 +54,10 @@ class Enemy:
         self.is_alive = True
         self.attack = 0
 
-    def draw(self, screen, font, color, location):
+    def draw(self, screen, font, color):
         screen.blit(self.image, self.rect)
         label_hp = font.render(f"ATK: {self.attack}", True, color)
-        screen.blit(label_hp, location)
+        screen.blit(label_hp, (self.rect.center[0] - 120, self.rect.center[1] - 150))
 
     def move(self, position):
         self.rect.center = position
@@ -73,3 +90,15 @@ class Fireball(Sprite):
     def update(self, screen):
         self.rect.center = (self.rect.center[0] - 20, self.rect.center[1])
         screen.blit(self.image, self.rect)
+
+class ChorusFruit(Sprite):
+    def __init__(self, image, size, location):
+        super().__init__(image, size)
+        self.rect.center = location
+        self.touched = False
+
+class Tool(Sprite):
+    def __init__(self, location):
+        super().__init__("tool.png", (150, 150))
+        self.rect.center = location
+        self.touched = False

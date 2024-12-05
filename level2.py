@@ -117,7 +117,7 @@ def level2():
         # Draw the enemy
         if piglin.is_alive:
             piglin.move((1700, 900))
-            piglin.draw(screen, message_font, (0, 0, 255), (1580, 750))
+            piglin.draw(screen, message_font, (0, 0, 255))
 
         if pixel_collision(player.mask, player.rect, piglin.mask, piglin.rect) and is_play:
             if player.attack > piglin.attack:

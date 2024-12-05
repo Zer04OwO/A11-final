@@ -37,11 +37,6 @@ def level1():
     start_rect.center = (100, 300)
     start_mask = pygame.mask.from_surface(start)
 
-    # load enemy pictures and set elements
-
-    # create the window based on the map size
-    screen = pygame.display.set_mode(map_size)
-
     # load player file and get elements of it
     player = Player()
 
@@ -104,7 +99,7 @@ def level1():
         # Draw the enemy
         if player.is_alive and zombie_1.is_alive:
             zombie_1.move((700, 700))
-            zombie_1.draw(screen, message_font, (255, 0, 0), (580, 550))
+            zombie_1.draw(screen, message_font, (255, 0, 0))
 
         if pixel_collision(player.mask, player.rect, zombie_1.mask, zombie_1.rect) and is_play:
             if player.attack > zombie_1.attack:
